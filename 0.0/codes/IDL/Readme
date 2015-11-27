@@ -1,0 +1,5 @@
+cat2map.pro : lecture du catalogue
+mk_gamma_my.pro : pixelise les deux composantes du shear (gamma1 et gamma2 du catalogue) dans 2 images gamma1 et gamma2.
+gamma_to_kappa : crée la carte de convergence kappa E ou kappa B à partir des cartes de shear (gamma1 et gamma2)
+
+kappa_to_gamma : cree la les cartes de shear à partir des cartes de la convergence 

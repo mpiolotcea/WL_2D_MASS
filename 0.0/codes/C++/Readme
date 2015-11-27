@@ -1,0 +1,10 @@
+Francois Lanusse codes:
+shearinversions.cc 
+shearinversions.h 
+Librairie de inversion gamma_to_kappa, kappa_to_gamma + autres
+gamma_to_kappa.cc : inversion en utilisant les librairies ci-dessus.
+
+
+Sandrine Pires codes:
+dans inpainting_EB.cc
+keb2g, g2keb routines permettent de faire les inversions.

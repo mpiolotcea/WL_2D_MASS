@@ -21,6 +21,7 @@ elements_depends_on_subdirs(ElementsKernel)
 # Examples:
 #          find_package(CppUnit)
 #===============================================================================
+find_package(Cfitsio)
 
 #===============================================================================
 # Declare the library dependencies here
@@ -31,7 +32,8 @@ elements_depends_on_subdirs(ElementsKernel)
 #                     PUBLIC_HEADERS ElementsExamples)
 #===============================================================================
 elements_add_library(Tools src/lib/*.cpp
-                     LINK_LIBRARIES ElementsKernel
+                     LINK_LIBRARIES fftw3 ElementsKernel
+                     INCLUDE_DIRS ElementsKernel
                      PUBLIC_HEADERS Tools)
 
 #===============================================================================
@@ -51,7 +53,8 @@ elements_add_library(Tools src/lib/*.cpp
 #                       LINK_LIBRARIES ElementsExamples TYPE Boost)
 #===============================================================================
 elements_add_unit_test(ShearInversions_test tests/src/ShearInversions_test.cpp 
-                     LINK_LIBRARIES Tools
+                     LINK_LIBRARIES Cfitsio Tools
+                     INCLUDE_DIRS cfitsio Tools
                      TYPE Boost)
 
 #===============================================================================

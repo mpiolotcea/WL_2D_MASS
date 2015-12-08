@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-c++"
+	BuildStamp="20151208-0805-Experimental"
+	Name="localhost.localdomain"
+	Generator="ctest-2.8.11"
+	CompilerName="/usr/bin/c++"
+	OSName="Linux"
+	Hostname="localhost.localdomain"
+	OSRelease="3.10.0-229.7.2.el7.x86_64"
+	OSVersion="#1 SMP Tue Jun 23 22:06:11 UTC 2015"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="70"
+	ProcessorCacheSize="6144"
+	NumberOfLogicalCPU="1"
+	NumberOfPhysicalCPU="1"
+	TotalVirtualMemory="2559"
+	TotalPhysicalMemory="3009"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="2494.28"
+>
+<Testing>
+	<StartDateTime>Dec 08 15:43 CET</StartDateTime>
+	<StartTestTime>1449585837</StartTestTime>
+	<TestList>
+		<Test>./Tools.ShearInversions_test</Test>
+	</TestList>
+	<Test Status="passed">
+		<Name>Tools.ShearInversions_test</Name>
+		<Path>.</Path>
+		<FullName>./Tools.ShearInversions_test</FullName>
+		<FullCommandLine>/usr/bin/python &quot;/opt/euclid/Elements/3.8/InstallArea/x86_64-co7-gcc48-o2g/cmake/scripts/env.py&quot; &quot;--xml&quot; &quot;/home/user/Work/Projects/WL_2D_MASS/1.0/build.x86_64-co7-gcc48-o2g/WL_2D_MASSBuildEnvironment.xml&quot; &quot;ShearInversions_test&quot;</FullCommandLine>
+		<Results>
+			<NamedMeasurement type="numeric/double" name="Execution Time"><Value>3.12568</Value></NamedMeasurement>
+			<NamedMeasurement type="text/string" name="Completion Status"><Value>Completed</Value></NamedMeasurement>
+			<NamedMeasurement type="text/string" name="Command Line"><Value>/usr/bin/python &quot;/opt/euclid/Elements/3.8/InstallArea/x86_64-co7-gcc48-o2g/cmake/scripts/env.py&quot; &quot;--xml&quot; &quot;/home/user/Work/Projects/WL_2D_MASS/1.0/build.x86_64-co7-gcc48-o2g/WL_2D_MASSBuildEnvironment.xml&quot; &quot;ShearInversions_test&quot;</Value></NamedMeasurement>
+			<Measurement>
+				<Value>Running 3 test cases...
+ENTER gamma2kappa_test
+ ENTER read_gamma
+  fptr = 0x2233320
+  nhdus = 1
+  hdunum = 1
+  hdutype = 0
+  bitpix = -32
+  naxis = 3
+  Nx = 1024 Ny = 1024 Nz = 2
+  sizeof(gammaE) = 8
+  fptr = 0x2233320 TFLOAT = 42 fpixel = 0x7fffbf216110 lpixel = 0x7fffbf216130 inc = 0x7fffbf216150 nulval = 0 gammaE = 0x7f5d585e0010 anynul = 0 status = 0
+  nb_zeros = 2097152 nb_nonzeros = 0
+ EXIT read_gamma
+ gammaE = 0x7f5d585e0010
+ Nx = 1024 Ny = 1024 Nz = 2
+ kappaE = 0x7f5d535db010
+EXIT gamma2kappa_test
+ENTER gamma2kappaandwritekappa_test
+ ENTER read_gamma
+  fptr = 0x224c3c0
+  nhdus = 1
+  hdunum = 1
+  hdutype = 0
+  bitpix = -32
+  naxis = 3
+  Nx = 1024 Ny = 1024 Nz = 2
+  sizeof(gammaE) = 8
+  fptr = 0x224c3c0 TFLOAT = 42 fpixel = 0x7fffbf2160d0 lpixel = 0x7fffbf2160f0 inc = 0x7fffbf216110 nulval = 0 gammaE = 0x2271510 anynul = 0 status = 0
+  nb_zeros = 2097152 nb_nonzeros = 0
+ EXIT read_gamma
+ gammaE = 0x2271510
+ Nx = 1024 Ny = 1024 Nz = 2
+ kappaE = 0x7271560
+ ENTER write_kappa
+  ENTER status_is_not_zero
+   1...
+The rest of the test output was removed since it exceeds the threshold of 1024 bytes.
+</Value>
+			</Measurement>
+		</Results>
+		<Labels>
+			<Label>UnitTest</Label>
+			<Label>Tools</Label>
+			<Label>Binary</Label>
+			<Label>Boost</Label>
+		</Labels>
+	</Test>
+	<EndDateTime>Dec 08 15:44 CET</EndDateTime>
+	<EndTestTime>1449585840</EndTestTime>
+<ElapsedMinutes>0</ElapsedMinutes></Testing>
+</Site>

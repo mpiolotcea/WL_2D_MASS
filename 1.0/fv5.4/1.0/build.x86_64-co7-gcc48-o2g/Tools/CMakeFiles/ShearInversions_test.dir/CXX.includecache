@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../Tools/Tools/ShearInversions.h
+fftw3.h
+-
+
+/home/user/Work/Projects/WL_2D_MASS/1.0/Tools/tests/src/ShearInversions_test.cpp
+cstdlib
+-
+unistd.h
+-
+iostream
+-
+sstream
+-
+boost/test/unit_test.hpp
+-
+fitsio.h
+-
+Tools/ShearInversions.h
+/home/user/Work/Projects/WL_2D_MASS/1.0/Tools/tests/src/Tools/ShearInversions.h
+
+/usr/include/cfitsio/fitsio.h
+stdio.h
+-
+sys/types.h
+-
+stdlib.h
+-
+limits.h
+-
+longnam.h
+/usr/include/cfitsio/longnam.h
+
+/usr/include/cfitsio/longnam.h
+

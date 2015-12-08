@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <project name="WL_2D_MASS" version="1.0" />
+  <used_projects>
+    <project name="Elements" version="3.8" />
+  </used_projects>
+</manifest>

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../Tools/Tools/ShearInversions.h
+fftw3.h
+-
+
+/home/user/Work/Projects/WL_2D_MASS/1.0/Tools/src/lib/ShearInversions.cpp
+cmath
+-
+math.h
+-
+Tools/ShearInversions.h
+/home/user/Work/Projects/WL_2D_MASS/1.0/Tools/src/lib/Tools/ShearInversions.h
+

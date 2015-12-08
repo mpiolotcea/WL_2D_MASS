@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-c++"
+	BuildStamp="20151207-0806-Experimental"
+	Name="localhost.localdomain"
+	Generator="ctest-2.8.11"
+	CompilerName="/usr/bin/c++"
+	OSName="Linux"
+	Hostname="localhost.localdomain"
+	OSRelease="3.10.0-229.7.2.el7.x86_64"
+	OSVersion="#1 SMP Tue Jun 23 22:06:11 UTC 2015"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="70"
+	ProcessorCacheSize="6144"
+	NumberOfLogicalCPU="1"
+	NumberOfPhysicalCPU="1"
+	TotalVirtualMemory="2559"
+	TotalPhysicalMemory="3009"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="2494.2"
+>
+<Testing>
+	<StartDateTime>Dec 07 16:12 CET</StartDateTime>
+	<StartTestTime>1449501124</StartTestTime>
+	<TestList>
+		<Test>./Tools.ShearInversions_test</Test>
+	</TestList>
+	<Test Status="failed">
+		<Name>Tools.ShearInversions_test</Name>
+		<Path>.</Path>
+		<FullName>./Tools.ShearInversions_test</FullName>
+		<FullCommandLine>/usr/bin/python &quot;/opt/euclid/Elements/3.8/InstallArea/x86_64-co7-gcc48-o2g/cmake/scripts/env.py&quot; &quot;--xml&quot; &quot;/home/user/Work/Projects/WL_2D_MASS/1.0/build.x86_64-co7-gcc48-o2g/WL_2D_MASSBuildEnvironment.xml&quot; &quot;ShearInversions_test&quot;</FullCommandLine>
+		<Results>
+			<NamedMeasurement type="text/string" name="Exit Code"><Value>Failed</Value></NamedMeasurement>
+			<NamedMeasurement type="text/string" name="Exit Value"><Value>201</Value></NamedMeasurement>
+			<NamedMeasurement type="numeric/double" name="Execution Time"><Value>2.05033</Value></NamedMeasurement>
+			<NamedMeasurement type="text/string" name="Completion Status"><Value>Completed</Value></NamedMeasurement>
+			<NamedMeasurement type="text/string" name="Command Line"><Value>/usr/bin/python &quot;/opt/euclid/Elements/3.8/InstallArea/x86_64-co7-gcc48-o2g/cmake/scripts/env.py&quot; &quot;--xml&quot; &quot;/home/user/Work/Projects/WL_2D_MASS/1.0/build.x86_64-co7-gcc48-o2g/WL_2D_MASSBuildEnvironment.xml&quot; &quot;ShearInversions_test&quot;</Value></NamedMeasurement>
+			<Measurement>
+				<Value>Running 2 test cases...
+fptr = 0x1b03150
+nhdus = 1
+hdunum = 1
+hdutype = 0
+bitpix = -32
+naxis = 3
+Nx = 1024 Ny = 1024 Nz = 2
+sizeof(gammaE) = 8
+fptr = 0x1b03150 TFLOAT = 42 fpixel = 0x7ffc1d73bbd0 lpixel = 0x7ffc1d73bbf0 inc = 0x7ffc1d73bc10 nulval = 0 gammaE = 0x7f1cbe12a010 anynul = 0 status = 0
+nb_zeros = 0 nb_nonzeros = 2097152
+gammaE = 0x7f1cbe12a010
+Nx = 1024 Ny = 1024 Nz = 2
+kappaE = 0x7f1cb9125010
+unknown location(0): fatal error in &quot;gamma2kappa_test&quot;: memory access violation at address: 0x7f1cbe932000: invalid permissions
+
+*** 1 failure detected in test suite &quot;Tools Test Suite&quot;
+</Value>
+			</Measurement>
+		</Results>
+		<Labels>
+			<Label>UnitTest</Label>
+			<Label>Tools</Label>
+			<Label>Binary</Label>
+			<Label>Boost</Label>
+		</Labels>
+	</Test>
+	<EndDateTime>Dec 07 16:12 CET</EndDateTime>
+	<EndTestTime>1449501126</EndTestTime>
+<ElapsedMinutes>0</ElapsedMinutes></Testing>
+</Site>

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec  /usr/bin/python /opt/euclid/Elements/3.8/InstallArea/x86_64-co7-gcc48-o2g/cmake/scripts/env.py --xml /home/user/Work/Projects/WL_2D_MASS/1.0/build.x86_64-co7-gcc48-o2g/WL_2D_MASSBuildEnvironment.xml "$@"

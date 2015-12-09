@@ -19,8 +19,9 @@
 
 using namespace Tools;
 
+#define TRACE_STATUS(status) status_is_not_zero(status)
+
 std::string status_is_not_zero(int status) {
-  TRACE_ENTER();
   char errstatus[30];
   fits_get_errstatus(status, errstatus);
   char errmsg[80];
@@ -28,7 +29,6 @@ std::string status_is_not_zero(int status) {
   std::ostringstream oss;
   oss << status << " " << errstatus << " " << errmsg;
   TRACE_DEBUG(oss);
-  TRACE_EXIT();
   return oss.str();
 }
 
@@ -40,23 +40,23 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
   fits_open_image(&fptr, pathname.c_str(), READONLY, &status);
   // error case
   if (status != 0) {
-    std::string exit_string = status_is_not_zero(status);
-    TRACE_EXIT();
-    return exit_string;
+    return TRACE_STATUS(status);
   }
   // read number of HDUs in the file
   int nhdus = 0;
   fits_get_num_hdus(fptr, &nhdus, &status);
-  std::ostringstream oss;
-  oss << "nhdus = " << nhdus;
-  TRACE_DEBUG(oss.str());
+  {
+    std::ostringstream oss;
+    oss << "nhdus = " << nhdus;
+    TRACE_DEBUG(oss.str());
+  }
   // we expect only one HDU in the file
   if (nhdus != 1) {
-    std::ostringstream oss;
-    oss << "nhdus is " << nhdus << ", not 1";
-    TRACE_DEBUG(oss);
+    std::ostringstream exit_oss;
+    exit_oss << "nhdus is " << nhdus << ", not 1";
+    TRACE_DEBUG(exit_oss);
     TRACE_EXIT();
-    return oss.str();
+    return exit_oss.str();
   }
   // read the HDUs of the file
   for (int hdunum = 1; hdunum < nhdus+1; hdunum++) {
@@ -78,11 +78,11 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
       TRACE_DEBUG(oss);
     }
     if (hdutype != IMAGE_HDU) {
-      std::ostringstream oss;
-      oss << "hdutype is " << hdutype << ", not IMAGE_HDU";
-      TRACE_DEBUG(oss);
+      std::ostringstream exit_oss;
+      exit_oss << "hdutype is " << hdutype << ", not IMAGE_HDU";
+      TRACE_DEBUG(exit_oss);
       TRACE_EXIT();
-      return oss.str();
+      return exit_oss.str();
     }
     // read the type of data in the HDU
     int bitpix = 0;
@@ -93,11 +93,11 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
       TRACE_DEBUG(oss);
     }
     if (bitpix != FLOAT_IMG) {
-      std::ostringstream oss;
-      oss << "bitpix is " << bitpix << ", not FLOAT_IMG";
-      TRACE_DEBUG(oss);
+      std::ostringstream exit_oss;
+      exit_oss << "bitpix is " << bitpix << ", not FLOAT_IMG";
+      TRACE_DEBUG(exit_oss);
       TRACE_EXIT();
-      return oss.str();
+      return exit_oss.str();
     }
     // get the number of dimensions in the image
     int naxis = 0;
@@ -108,11 +108,11 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
       TRACE_DEBUG(oss);
     }
     if (naxis != 3) {
-      std::ostringstream oss;
-      oss << "naxis is " << naxis << ", not 3";
-      TRACE_DEBUG(oss);
+      std::ostringstream exit_oss;
+      exit_oss << "naxis is " << naxis << ", not 3";
+      TRACE_DEBUG(exit_oss);
       TRACE_EXIT();
-      return oss.str();
+      return exit_oss.str();
     }
     // get the size of each dimension in the image
     long *naxes = new long[naxis];
@@ -122,9 +122,11 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
     Ny = naxes[1];
     Nz = naxes[2];
     delete [] naxes;
-    std::ostringstream oss;
-    oss << "Nx = " << Nx << " Ny = " << Ny << " Nz = " << Nz;
-    TRACE_DEBUG(oss);
+    {
+      std::ostringstream oss;
+      oss << "Nx = " << Nx << " Ny = " << Ny << " Nz = " << Nz;
+      TRACE_DEBUG(oss);
+    }
     // fits_read_subset
     long fpixel[3];
     fpixel[0] = 1;
@@ -155,9 +157,9 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
     }
     fits_read_subset(fptr, TFLOAT, fpixel, lpixel, inc, &nulval, gammaE, &anynul, &status);
     if (status != 0) {
-      std::string exit_string = status_is_not_zero(status);
+      std::string exit_string = TRACE_STATUS(status);
       TRACE_EXIT();
-      return exit_string;
+      return TRACE_STATUS(status);
     }
     int nb_zeros = 0, nb_nonzeros = 0;
     for (int i = 0; i < Nx*Ny*Nz; i++) {
@@ -190,36 +192,31 @@ std::string write_image(const std::string &pathname, double *&gamma, const std::
       status = 0;
       fits_delete_file(fptr, &status);
       if (status != 0) {
-        std::string exit_string = status_is_not_zero(status);
         TRACE_EXIT();
-        return exit_string;
+        return TRACE_STATUS(status);
       } else {
         fits_create_file(&fptr, pathname.c_str(), &status);
         if (status != 0) {
-          std::string exit_string = status_is_not_zero(status);
           TRACE_EXIT();
-          return exit_string;
+          return TRACE_STATUS(status);
         }
       }
     } else {
-      std::string exit_string = status_is_not_zero(status);
       TRACE_EXIT();
-      return exit_string;
+      return TRACE_STATUS(status);
     }
   }
   // create the primary array image
   fits_create_img(fptr, FLOAT_IMG, naxis, naxes, &status);
   if (status != 0) {
-    std::string exit_string = status_is_not_zero(status);
     TRACE_EXIT();
-    return exit_string;
+    return TRACE_STATUS(status);
   }
   // write a keyword
   fits_update_key(fptr, TFLOAT, name.c_str(), gamma, name.c_str(), &status);
   if (status != 0) {
-    std::string exit_string = status_is_not_zero(status);
     TRACE_EXIT();
-    return exit_string;
+    return TRACE_STATUS(status);
   }
   // write the array of floats to the image
   long fpixel = 1;
@@ -229,16 +226,14 @@ std::string write_image(const std::string &pathname, double *&gamma, const std::
   }
   fits_write_img(fptr, TFLOAT, fpixel, nelements, (void*)gamma, &status);
   if (status != 0) {
-    std::string exit_string = status_is_not_zero(status);
     TRACE_EXIT();
-    return exit_string;
+    return TRACE_STATUS(status);
   }
   // close the file
   fits_close_file(fptr, &status);
   if (status != 0) {
-    std::string exit_string = status_is_not_zero(status);
     TRACE_EXIT();
-    return exit_string;
+    return TRACE_STATUS(status);
   }
   TRACE_EXIT();
   return "WRITE_OK";

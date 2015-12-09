@@ -28,7 +28,7 @@ std::string status_is_not_zero(int status) {
   fits_read_errmsg(errmsg);
   std::ostringstream oss;
   oss << status << " " << errstatus << " " << errmsg;
-  TRACE_DEBUG(oss);
+  TRACE_DEBUG(oss.str());
   return oss.str();
 }
 
@@ -54,8 +54,7 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
   if (nhdus != 1) {
     std::ostringstream exit_oss;
     exit_oss << "nhdus is " << nhdus << ", not 1";
-    TRACE_DEBUG(exit_oss);
-    TRACE_EXIT();
+    TRACE_DEBUG(exit_oss.str());
     return exit_oss.str();
   }
   // read the HDUs of the file
@@ -63,7 +62,7 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
     {
       std::ostringstream oss;
       oss << "hdunum = " << hdunum;
-      TRACE_DEBUG(oss);
+      TRACE_DEBUG(oss.str());
     }
     // read the type of the HDU
     int hdutype = 0;
@@ -75,13 +74,12 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
     {
       std::ostringstream oss;
       oss << "hdutype = " << hdutype;
-      TRACE_DEBUG(oss);
+      TRACE_DEBUG(oss.str());
     }
     if (hdutype != IMAGE_HDU) {
       std::ostringstream exit_oss;
       exit_oss << "hdutype is " << hdutype << ", not IMAGE_HDU";
-      TRACE_DEBUG(exit_oss);
-      TRACE_EXIT();
+      TRACE_DEBUG(exit_oss.str());
       return exit_oss.str();
     }
     // read the type of data in the HDU
@@ -90,13 +88,12 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
     {
       std::ostringstream oss;
       oss << "bitpix = " << bitpix;
-      TRACE_DEBUG(oss);
+      TRACE_DEBUG(oss.str());
     }
     if (bitpix != FLOAT_IMG) {
       std::ostringstream exit_oss;
       exit_oss << "bitpix is " << bitpix << ", not FLOAT_IMG";
-      TRACE_DEBUG(exit_oss);
-      TRACE_EXIT();
+      TRACE_DEBUG(exit_oss.str());
       return exit_oss.str();
     }
     // get the number of dimensions in the image
@@ -105,13 +102,12 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
     {
       std::ostringstream oss;
       oss << "naxis = " << naxis;
-      TRACE_DEBUG(oss);
+      TRACE_DEBUG(oss.str());
     }
     if (naxis != 3) {
       std::ostringstream exit_oss;
       exit_oss << "naxis is " << naxis << ", not 3";
-      TRACE_DEBUG(exit_oss);
-      TRACE_EXIT();
+      TRACE_DEBUG(exit_oss.str());
       return exit_oss.str();
     }
     // get the size of each dimension in the image
@@ -125,7 +121,7 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
     {
       std::ostringstream oss;
       oss << "Nx = " << Nx << " Ny = " << Ny << " Nz = " << Nz;
-      TRACE_DEBUG(oss);
+      TRACE_DEBUG(oss.str());
     }
     // fits_read_subset
     long fpixel[3];
@@ -145,7 +141,7 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
     {
       std::ostringstream oss;
       oss << "sizeof(gammaE) = " << sizeof(gammaE);
-      TRACE_DEBUG(oss);
+      TRACE_DEBUG(oss.str());
     }
     int anynul = 0;
     {
@@ -153,12 +149,12 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
       oss << "fptr = " << fptr << " TFLOAT = " << TFLOAT << " fpixel = " << fpixel << " lpixel = " << lpixel
           << " inc = " << inc << " nulval = " << nulval << " gammaE = " << gammaE << " anynul = " << anynul
           << " status = " << status;
-      TRACE_DEBUG(oss);
+      TRACE_DEBUG(oss.str());
     }
     fits_read_subset(fptr, TFLOAT, fpixel, lpixel, inc, &nulval, gammaE, &anynul, &status);
     if (status != 0) {
       std::string exit_string = TRACE_STATUS(status);
-      TRACE_EXIT();
+
       return TRACE_STATUS(status);
     }
     int nb_zeros = 0, nb_nonzeros = 0;
@@ -172,11 +168,10 @@ std::string read_gamma(const std::string &pathname, double *&gammaE, int &Nx, in
     {
       std::ostringstream oss;
       oss << "nb_zeros = " << nb_zeros << " nb_nonzeros = " << nb_nonzeros;
-      TRACE_DEBUG(oss);
+      TRACE_DEBUG(oss.str());
     }
   }
   fits_close_file(fptr, &status);
-  TRACE_EXIT();
   return "READ_GAMMA_OK";
 }
 
@@ -192,30 +187,25 @@ std::string write_image(const std::string &pathname, double *&gamma, const std::
       status = 0;
       fits_delete_file(fptr, &status);
       if (status != 0) {
-        TRACE_EXIT();
         return TRACE_STATUS(status);
       } else {
         fits_create_file(&fptr, pathname.c_str(), &status);
         if (status != 0) {
-          TRACE_EXIT();
           return TRACE_STATUS(status);
         }
       }
     } else {
-      TRACE_EXIT();
       return TRACE_STATUS(status);
     }
   }
   // create the primary array image
   fits_create_img(fptr, FLOAT_IMG, naxis, naxes, &status);
   if (status != 0) {
-    TRACE_EXIT();
     return TRACE_STATUS(status);
   }
   // write a keyword
   fits_update_key(fptr, TFLOAT, name.c_str(), gamma, name.c_str(), &status);
   if (status != 0) {
-    TRACE_EXIT();
     return TRACE_STATUS(status);
   }
   // write the array of floats to the image
@@ -226,16 +216,13 @@ std::string write_image(const std::string &pathname, double *&gamma, const std::
   }
   fits_write_img(fptr, TFLOAT, fpixel, nelements, (void*)gamma, &status);
   if (status != 0) {
-    TRACE_EXIT();
     return TRACE_STATUS(status);
   }
   // close the file
   fits_close_file(fptr, &status);
   if (status != 0) {
-    TRACE_EXIT();
     return TRACE_STATUS(status);
   }
-  TRACE_EXIT();
   return "WRITE_OK";
 }
 
@@ -261,19 +248,23 @@ BOOST_AUTO_TEST_CASE( gamma2kappa_test ) {
   {
     std::ostringstream oss;
     oss << "gammaE = " << gammaE;
-    TRACE_DEBUG(oss);
+    TRACE_DEBUG(oss.str());
   }
   // ShearInversions
   int NZeroPadded = 1024;
   Tools::ShearInversions si (NZeroPadded);
   // gamma2kappa
-  std::ostringstream oss;
-  oss << "Nx = " << Nx << " Ny = " << Ny << " Nz = " << Nz;
-  TRACE_DEBUG(oss);
+  {
+    std::ostringstream oss;
+    oss << "Nx = " << Nx << " Ny = " << Ny << " Nz = " << Nz;
+    TRACE_DEBUG(oss.str());
+  }
   double *kappaE = new double[Nx*Ny*Nz];
-  oss.flush();
-  oss << "kappaE = " << kappaE;
-  TRACE_DEBUG(oss);
+  {
+    std::ostringstream oss;
+    oss << "kappaE = " << kappaE;
+    TRACE_DEBUG(oss.str());
+  }
   si.gamma2kappa(&gammaE[0], &gammaE[Nx*Ny], kappaE, Nx, Ny, 1);
   // write kappa
   std::string name = "kappa";
@@ -286,14 +277,10 @@ BOOST_AUTO_TEST_CASE( gamma2kappa_test ) {
   // free arrays
   delete [] kappaE;
   delete [] gammaE;
-  TRACE_EXIT();
 }
 
 BOOST_AUTO_TEST_CASE( gamma2kappa2gamma_test ) {
   // this test calls gamma2kappa and then kappa2gamma then checks that the output is similar to the input
-
-  std::string log_header = " ";
-  std::string enter_exit_log_header = "";
   TRACE_ENTER();
   std::string pathname ("../Tools/tests/src/gamma_B.1_new.fits");
   double *gammaE = nullptr;
@@ -303,10 +290,13 @@ BOOST_AUTO_TEST_CASE( gamma2kappa2gamma_test ) {
     if (gammaE != nullptr) {
       delete [] gammaE;
     }
-    TRACE_EXIT();
     BOOST_FAIL(res);
   }
-  std::cout << log_header << "gammaE = " << gammaE << std::endl;
+  {
+    std::ostringstream oss;
+    oss << "gammaE = " << gammaE;
+    TRACE_DEBUG(oss.str());
+  }
   // ShearInversions
   int NZeroPadded = 1024;
   Tools::ShearInversions si(NZeroPadded);
@@ -329,7 +319,7 @@ BOOST_AUTO_TEST_CASE( gamma2kappa2gamma_test ) {
   {
     std::ostringstream oss;
     oss << "nb_same = " << nb_same << " nb_diff = " << nb_diff;
-    TRACE_DEBUG(oss);
+    TRACE_DEBUG(oss.str());
   }
   // write gammaE_output
   std::string name = "gamma_output";
@@ -343,7 +333,6 @@ BOOST_AUTO_TEST_CASE( gamma2kappa2gamma_test ) {
   delete [] gammaE_output;
   delete [] kappaE;
   delete [] gammaE;
-  TRACE_EXIT();
 }
 
 //-----------------------------------------------------------------------------

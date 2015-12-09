@@ -8,60 +8,37 @@
 
 namespace Trace {
 
-std::string trace_enter(int &nb_spaces) {
-  std::ostringstream log_header;
+int Trace::nb_instances = 0;
+
+Trace::Trace() { nb_instances++; }
+
+Trace::~Trace() { nb_instances--; std::cout << format_exit(nb_instances) << std::endl; }
+
+std::string Trace::format_enter(int nb_spaces) {
+  std::ostringstream oss;
   for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
-    log_header << " ";
+    oss << " ";
   }
-  log_header << "ENTER ";
-  nb_spaces++;
-  return log_header.str();
+  oss << "ENTER ";
+  return oss.str();
 }
 
-std::string trace_exit(int &nb_spaces) {
-  nb_spaces--;
-  std::ostringstream log_header;
+std::string Trace::format_exit(int nb_spaces) {
+  std::ostringstream oss;
   for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
-    log_header << " ";
+    oss << " ";
   }
-  log_header << "EXIT ";
-  return log_header.str();
+  oss << "EXIT";
+  return oss.str();
 }
 
-std::string trace_debug(int nb_spaces, std::ostringstream &debug_message) {
-  std::ostringstream log_header;
+std::string Trace::format_debug(int nb_spaces, std::string debug_message) {
+  std::ostringstream oss;
   for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
-    log_header << " ";
+    oss << " ";
   }
-  log_header << "DEBUG " << debug_message.str();
-  return log_header.str();
-}
-
-std::string trace_debug(int nb_spaces, std::string debug_message) {
-  std::ostringstream log_header;
-  for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
-    log_header << " ";
-  }
-  log_header << "DEBUG " << debug_message;
-  return log_header.str();
-}
-
-std::string trace_debug(int nb_spaces, char *debug_message) {
-  std::ostringstream log_header;
-  for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
-    log_header << " ";
-  }
-  log_header << "DEBUG " << debug_message;
-  return log_header.str();
-}
-
-std::string trace_debug(int nb_spaces, int debug_message) {
-  std::ostringstream log_header;
-  for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
-    log_header << " ";
-  }
-  log_header << "DEBUG " << debug_message;
-  return log_header.str();
+  oss << "DEBUG " << debug_message;
+  return oss.str();
 }
 
 } // Trace namespace

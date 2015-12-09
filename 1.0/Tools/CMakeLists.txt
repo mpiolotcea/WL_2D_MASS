@@ -13,7 +13,7 @@ elements_subdir(Tools)
 #   For creating a dependency onto an other accessible module
 #         elements_depends_on_subdirs(ElementsKernel)
 #===============================================================================
-elements_depends_on_subdirs(ElementsKernel)
+elements_depends_on_subdirs(ElementsKernel Trace)
 
 #===============================================================================
 # Add the find_package macro (a pure CMake command) here to locate the 
@@ -32,8 +32,8 @@ find_package(Cfitsio)
 #                     PUBLIC_HEADERS ElementsExamples)
 #===============================================================================
 elements_add_library(Tools src/lib/*.cpp
-                     LINK_LIBRARIES fftw3 ElementsKernel
-                     INCLUDE_DIRS ElementsKernel
+                     LINK_LIBRARIES fftw3 ElementsKernel Trace
+                     INCLUDE_DIRS ElementsKernel Trace
                      PUBLIC_HEADERS Tools)
 
 #===============================================================================
@@ -53,8 +53,8 @@ elements_add_library(Tools src/lib/*.cpp
 #                       LINK_LIBRARIES ElementsExamples TYPE Boost)
 #===============================================================================
 elements_add_unit_test(ShearInversions_test tests/src/ShearInversions_test.cpp 
-                     LINK_LIBRARIES Cfitsio Tools
-                     INCLUDE_DIRS cfitsio Tools
+                     LINK_LIBRARIES Cfitsio Tools Trace
+                     INCLUDE_DIRS cfitsio Tools Trace
                      TYPE Boost)
 
 #===============================================================================

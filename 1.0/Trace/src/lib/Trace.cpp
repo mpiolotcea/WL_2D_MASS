@@ -41,4 +41,31 @@ std::string Trace::format_debug(int nb_spaces, std::string debug_message) {
   return oss.str();
 }
 
+std::string Trace::format_info(int nb_spaces, std::string info_message) {
+  std::ostringstream oss;
+  for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
+    oss << " ";
+  }
+  oss << "INFO " << info_message;
+  return oss.str();
+}
+
+std::string Trace::format_warn(int nb_spaces, std::string warn_message) {
+  std::ostringstream oss;
+  for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
+    oss << " ";
+  }
+  oss << "WARN " << warn_message;
+  return oss.str();
+}
+
+std::string Trace::format_error(int nb_spaces, std::string error_message) {
+  std::ostringstream oss;
+  for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
+    oss << " ";
+  }
+  oss << "ERROR " << error_message;
+  return oss.str();
+}
+
 } // Trace namespace

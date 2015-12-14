@@ -11,17 +11,20 @@
 #include <string>
 #include <sstream>
 
+#include <fitsio.h>
+
 #define TRACE_ENTER() Trace::Trace trace; std::cout << trace.format_enter(Trace::Trace::nb_instances-1) << __func__ << std::endl
 #define TRACE_DEBUG(debug_message) std::cout << Trace::Trace::format_debug(Trace::Trace::nb_instances, debug_message) << std::endl
 #define TRACE_INFO(info_message) std::cout << Trace::Trace::format_info(Trace::Trace::nb_instances, info_message) << std::endl
 #define TRACE_WARN(warn_message) std::cout << Trace::Trace::format_warn(Trace::Trace::nb_instances, warn_message) << std::endl
 #define TRACE_ERROR(error_message) std::cout << Trace::Trace::format_error(Trace::Trace::nb_instances, error_message) << std::endl
+#define FORMAT_STATUS(status) Trace::Trace::format_status(Trace::Trace::nb_instances, status)
 
 namespace Trace {
 
 /**
  * logs the entrance and exit of a method
- * logs debug messages
+ * logs debug, info, warning and error messages
  */
 class Trace {
 
@@ -82,6 +85,14 @@ public:
    * @return a formatted message to be logged
    */
   static std::string format_error(int nb_spaces, std::string error_message);
+
+  /**
+   * creates a message based on the informations of the status
+   * @param nb_spaces number of spaces in the header of the output message
+   * @param status a FITSio status
+   * @return a formatted message to be logged
+   */
+  static std::string format_status(int nb_spaces, int status);
 
   /**
    * number of instances of the class

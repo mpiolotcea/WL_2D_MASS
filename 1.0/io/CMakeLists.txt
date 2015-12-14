@@ -6,14 +6,14 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.5)
 #   For declaring a project module:
 #         elements_subdir(ElementsExamples)
 #===============================================================================
-elements_subdir(Tools)
+elements_subdir(io)
 
 #===============================================================================
 # Load elements_depends_on_subdirs macro here 
 #   For creating a dependency onto an other accessible module
 #         elements_depends_on_subdirs(ElementsKernel)
 #===============================================================================
-elements_depends_on_subdirs(ElementsKernel Trace io)
+elements_depends_on_subdirs(ElementsKernel Trace)
 
 #===============================================================================
 # Add the find_package macro (a pure CMake command) here to locate the 
@@ -31,10 +31,10 @@ find_package(Cfitsio)
 #                     INCLUDE_DIRS Boost ElementsKernel
 #                     PUBLIC_HEADERS ElementsExamples)
 #===============================================================================
-elements_add_library(Tools src/lib/*.cpp
-                     LINK_LIBRARIES Cfitsio fftw3 ElementsKernel Trace io
-                     INCLUDE_DIRS ElementsKernel cfitsio Trace io
-                     PUBLIC_HEADERS Tools)
+elements_add_library(io src/lib/*.cpp
+                     LINK_LIBRARIES ElementsKernel Trace Cfitsio
+                     INCLUDE_DIRS Trace cfitsio
+                     PUBLIC_HEADERS io)
 
 #===============================================================================
 # Declare the executables here
@@ -52,9 +52,13 @@ elements_add_library(Tools src/lib/*.cpp
 #                       INCLUDE_DIRS ElementsExamples
 #                       LINK_LIBRARIES ElementsExamples TYPE Boost)
 #===============================================================================
-elements_add_unit_test(ShearInversions_test tests/src/ShearInversions_test.cpp 
-                     INCLUDE_DIRS Tools
-                     LINK_LIBRARIES Tools
+elements_add_unit_test(read_fits_test tests/src/read_fits_test.cpp 
+                     INCLUDE_DIRS io
+                     LINK_LIBRARIES io
+                     TYPE Boost)
+elements_add_unit_test(write_fits_test tests/src/write_fits_test.cpp 
+                     INCLUDE_DIRS io
+                     LINK_LIBRARIES io
                      TYPE Boost)
 
 #===============================================================================

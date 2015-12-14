@@ -68,4 +68,17 @@ std::string Trace::format_error(int nb_spaces, std::string error_message) {
   return oss.str();
 }
 
+std::string Trace::format_status(int nb_spaces, int status) {
+  char errstatus[30];
+  fits_get_errstatus(status, errstatus);
+  char errmsg[80];
+  fits_read_errmsg(errmsg);
+  std::ostringstream oss;
+  for (int nb_space = 0; nb_space < nb_spaces; nb_space++) {
+    oss << " ";
+  }
+  oss << "STATUS " << status << " " << errstatus << " " << errmsg;
+  return oss.str();
+}
+
 } // Trace namespace

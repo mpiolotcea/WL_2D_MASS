@@ -21,6 +21,7 @@ elements_depends_on_subdirs(ElementsKernel)
 # Examples:
 #          find_package(CppUnit)
 #===============================================================================
+find_package(Cfitsio)
 
 #===============================================================================
 # Declare the library dependencies here
@@ -31,7 +32,8 @@ elements_depends_on_subdirs(ElementsKernel)
 #                     PUBLIC_HEADERS ElementsExamples)
 #===============================================================================
 elements_add_library(Trace src/lib/*.cpp
-                     LINK_LIBRARIES ElementsKernel
+                     LINK_LIBRARIES ElementsKernel Cfitsio
+                     INCLUDE_DIRS cfitsio
                      PUBLIC_HEADERS Trace)
 
 #===============================================================================
@@ -51,6 +53,7 @@ elements_add_library(Trace src/lib/*.cpp
 #                       LINK_LIBRARIES ElementsExamples TYPE Boost)
 #===============================================================================
 elements_add_unit_test(Trace_test tests/src/Trace_test.cpp 
+                     INCLUDE_DIRS Trace
                      LINK_LIBRARIES Trace
                      TYPE Boost)
 

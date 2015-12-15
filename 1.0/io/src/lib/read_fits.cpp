@@ -111,7 +111,7 @@ std::string read_image(std::string pathname, double *&array, int &naxis, long *&
   return "READ_OK";
 }
 
-std::string read_3D_image(std::string pathname, double **&array, int &naxis, long *&naxes) {
+std::string read_image_3D(std::string pathname, double *&array_1, double *&array_2, int &naxis, long *&naxes) {
   TRACE_ENTER();
   // open FITS image file in READONLY mode
   fitsfile *fptr;
@@ -179,6 +179,13 @@ std::string read_3D_image(std::string pathname, double **&array, int &naxis, lon
   if (status != 0) {
     return FORMAT_STATUS(status);
   }
+  // we expect two sub-images in the third dimension
+  if (naxes[2] != 2) {
+    std::ostringstream exit_oss;
+    exit_oss << "naxes[2] is " << naxes[2] << ", not 2";
+    TRACE_ERROR (exit_oss.str());
+    return exit_oss.str();
+  }
   // fits_read_subset
   long *fpixel = new long[naxis];
   for (int naxe = 0; naxe < naxis; naxe++) {
@@ -187,6 +194,11 @@ std::string read_3D_image(std::string pathname, double **&array, int &naxis, lon
   long *lpixel = new long[naxis];
   for (int naxe = 0; naxe < naxis; naxe++) {
     lpixel[naxe] = naxes[naxe];
+    {
+      std::ostringstream oss;
+      oss << "naxes[" << naxe << "] = " << naxes[naxe];
+      TRACE_DEBUG(oss.str());
+    }
   }
   long *inc = new long[naxis];
   for (int naxe = 0; naxe < naxis; naxe++) {
@@ -194,17 +206,25 @@ std::string read_3D_image(std::string pathname, double **&array, int &naxis, lon
   }
   float nulval = 0;
   long nelements = 1;
-  for (int naxe = 0; naxe < naxis-1; naxe++) {
-    nelements = nelements*naxes[naxe];
+  for (int naxe = 0; naxe < naxis; naxe++) {
+    nelements = nelements * naxes[naxe];
   }
-  array = new double*[2];
-  array[0] = new double[nelements];
-  array[1] = new double[nelements];
   int anynul = 0;
-  fits_read_subset(fptr, TFLOAT, fpixel, lpixel, inc, &nulval, &array[0][0], &anynul, &status);
+  // read array_1
+  array_1 = new double[nelements/2];
+  fpixel[2] = 1;
+  lpixel[2] = 1;
+  fits_read_subset(fptr, TFLOAT, fpixel, lpixel, inc, &nulval, array_1, &anynul, &status);
+  // read array_2
+  array_2 = new double[nelements/2];
+  fpixel[2] = 2;
+  lpixel[2] = 2;
+  fits_read_subset(fptr, TFLOAT, fpixel, lpixel, inc, &nulval, array_2, &anynul, &status);
+  // free arrays
   delete [] inc;
   delete [] lpixel;
   delete [] fpixel;
+  // test read result
   if (status != 0) {
     return FORMAT_STATUS(status);
   }

@@ -18,11 +18,21 @@ std::string write_image(std::string pathname, double *array, std::string name, i
   if (status != 0) {
     // cannot create the file
     // likely, the file already exists
-    // open it and delete it
+    // try to open it, delete it and create it anew
+    // try to open the file
     status = 0;
     fits_open_file(&fptr, pathname.c_str(), READWRITE, &status);
+    if (status != 0) {
+      // cannot open the file, for some reason
+      return FORMAT_STATUS(status);
+    }
+    // try to delete the file
     status = 0;
     fits_delete_file(fptr, &status);
+    if (status != 0) {
+      // cannot delete the file, for some reason
+      return FORMAT_STATUS(status);
+    }
     // try to create the file
     status = 0;
     fits_create_file(&fptr, pathname.c_str(), &status);
@@ -44,13 +54,8 @@ std::string write_image(std::string pathname, double *array, std::string name, i
   // write the array of floats to the image
   long fpixel = 1;
   long nelements = 1;
-  for (int naxe = 0; naxe < naxis; naxe++) {
-    nelements = nelements * naxes[naxe];
-  }
-  {
-    std::ostringstream oss;
-    oss << "nelements = " << nelements;
-    TRACE_DEBUG(oss.str());
+  for (int i = 0; i < naxis; i++) {
+    nelements = nelements * naxes[i];
   }
   fits_write_img(fptr, TFLOAT, fpixel, nelements, (void*)array, &status);
   if (status != 0) {

@@ -26,8 +26,6 @@ namespace io {
  */
 std::string write_image(std::string pathname, double *array, std::string name, int naxis, long *naxes);
 
-
 } /* namespace io */
-
 
 #endif

@@ -19,172 +19,180 @@ BOOST_AUTO_TEST_SUITE (read_fits_test)
 
 BOOST_AUTO_TEST_CASE( readwriteread_test ) {
   TRACE_ENTER();
-  // read gamma_r from pathname_gamma
-  std::string pathname_gamma("../Tools/tests/src/gamma_B.1_new.fits");
-  double *gamma_r = nullptr;
-  int naxis_gamma_r = 0;
-  long *naxes_gamma_r = nullptr;
-  std::string read_gamma = io::read_image(pathname_gamma, gamma_r, naxis_gamma_r, naxes_gamma_r);
-  if (read_gamma != "READ_OK") {
-    if (gamma_r != nullptr) {
-      delete [] gamma_r;
+
+  // read gamma_3D from pathname_gamma_3D
+  std::string pathname_gamma_3D("../Tools/tests/src/gamma_B.1_new.fits");
+  double *gamma_3D = nullptr;
+  int naxis_gamma_3D = 0;
+  long *naxes_gamma_3D = nullptr;
+  std::string read_gamma_3D = io::read_image(pathname_gamma_3D, gamma_3D, naxis_gamma_3D, naxes_gamma_3D);
+  if (read_gamma_3D != "READ_OK") {
+    if (gamma_3D != nullptr) {
+      delete [] gamma_3D;
     }
-    if (naxes_gamma_r != nullptr) {
-      delete [] naxes_gamma_r;
+    if (naxes_gamma_3D != nullptr) {
+      delete [] naxes_gamma_3D;
     }
-    BOOST_FAIL(read_gamma);
+    BOOST_FAIL(read_gamma_3D);
   }
-  // write gamma_r into pathname_gamma_rw
-  std::string pathname_gamma_rw("../Tools/tests/src/gamma_B.1_new.rw.fits");
-  std::string name_gamma_rw("gamma_rw");
-  std::string write_output = io::write_image(pathname_gamma_rw, gamma_r, name_gamma_rw, naxis_gamma_r, naxes_gamma_r);
-  if (write_output != "WRITE_OK") {
-    delete [] gamma_r;
-    delete [] naxes_gamma_r;
-    BOOST_FAIL(write_output);
+
+  // write gamma_3D into pathname_gamma_3D_rw
+  std::string pathname_gamma_3D_rw("../Tools/tests/src/gamma_B.rw.fits");
+  std::string name_gamma_3D_rw("gamma_3D_rw");
+  std::string write_gamma_3D_rw = io::write_image(pathname_gamma_3D_rw, gamma_3D, name_gamma_3D_rw, naxis_gamma_3D, naxes_gamma_3D);
+  if (write_gamma_3D_rw != "WRITE_OK") {
+    delete [] gamma_3D;
+    delete [] naxes_gamma_3D;
+    BOOST_FAIL(write_gamma_3D_rw);
   }
-  // read gamma_rwr from pathname_gamma_rw
-  double *gamma_rwr = nullptr;
-  int naxis_gamma_rwr = 0;
-  long *naxes_gamma_rwr = nullptr;
-  std::string read_gamma_rwr = io::read_image(pathname_gamma_rw, gamma_rwr, naxis_gamma_rwr, naxes_gamma_rwr);
-  if (read_gamma_rwr != "READ_OK") {
-    if (gamma_rwr != nullptr) {
-      delete [] gamma_rwr;
+
+  // read gamma_3D_rwr from pathname_gamma_3D_rw
+  double *gamma_3D_rwr = nullptr;
+  int naxis_gamma_3D_rwr = 0;
+  long *naxes_gamma_3D_rwr = nullptr;
+  std::string read_gamma_3D_rwr = io::read_image(pathname_gamma_3D_rw, gamma_3D_rwr, naxis_gamma_3D_rwr, naxes_gamma_3D_rwr);
+  if (read_gamma_3D_rwr != "READ_OK") {
+    if (gamma_3D_rwr != nullptr) {
+      delete [] gamma_3D_rwr;
     }
-    delete [] gamma_r;
-    delete [] naxes_gamma_r;
-    BOOST_FAIL(read_gamma_rwr);
+    if (naxes_gamma_3D_rwr != nullptr) {
+      delete [] naxes_gamma_3D_rwr;
+    }
+    delete [] gamma_3D;
+    delete [] naxes_gamma_3D;
+    BOOST_FAIL(read_gamma_3D_rwr);
   }
+
   // compare output vs input
-  BOOST_CHECK(naxis_gamma_rwr == naxis_gamma_r);
-  for (int num_axis = 0; num_axis < naxis_gamma_r; num_axis++) {
-    BOOST_CHECK(naxes_gamma_rwr[num_axis] == naxes_gamma_r[num_axis]);
+  BOOST_CHECK(naxis_gamma_3D_rwr == naxis_gamma_3D);
+  for (int i = 0; i < naxis_gamma_3D; i++) {
+    BOOST_CHECK(naxes_gamma_3D_rwr[i] == naxes_gamma_3D[i]);
   }
-  for (int x = 0; x < naxes_gamma_r[0]; x++) {
-    for (int y = 0; y < naxes_gamma_r[1]; y++) {
-      for (int z = 0; z < naxes_gamma_r[2]; z++) {
-        BOOST_CHECK (fabs(gamma_rwr[z*naxes_gamma_r[1]*naxes_gamma_r[0]+x*naxes_gamma_r[1]+y]-gamma_r[z*naxes_gamma_r[1]*naxes_gamma_r[0]+x*naxes_gamma_r[1]+y]) <= fabs(gamma_r[z*naxes_gamma_r[1]*naxes_gamma_r[0]+x*naxes_gamma_r[1]+y]*0.01));
+  for (int x = 0; x < naxes_gamma_3D[0]; x++) {
+    for (int y = 0; y < naxes_gamma_3D[1]; y++) {
+      for (int z = 0; z < naxes_gamma_3D[2]; z++) {
+        BOOST_CHECK (fabs(gamma_3D_rwr[z*naxes_gamma_3D[1]*naxes_gamma_3D[0]+x*naxes_gamma_3D[1]+y]-gamma_3D[z*naxes_gamma_3D[1]*naxes_gamma_3D[0]+x*naxes_gamma_3D[1]+y]) <= fabs(gamma_3D[z*naxes_gamma_3D[1]*naxes_gamma_3D[0]+x*naxes_gamma_3D[1]+y]*0.01));
       }
     }
   }
+
   // free arrays
-  delete [] gamma_rwr;
-  delete [] naxes_gamma_rwr;
-  delete [] gamma_r;
-  delete [] naxes_gamma_r;
+  delete [] gamma_3D_rwr;
+  delete [] naxes_gamma_3D_rwr;
+  delete [] gamma_3D;
+  delete [] naxes_gamma_3D;
 }
 
 BOOST_AUTO_TEST_CASE( read3Dwriteread_test ) {
   TRACE_ENTER();
 
-  // read gamma_1_r and gamma_2_r from pathname_gamma
-  std::string pathname_gamma("../Tools/tests/src/gamma_B.1_new.fits");
-  double *gamma_1_r = nullptr, *gamma_2_r = nullptr;
-  int naxis_gamma_r = 0;
-  long *naxes_gamma_r = nullptr;
-  std::string read_gamma_3D = io::read_image_3D(pathname_gamma, gamma_1_r, gamma_2_r, naxis_gamma_r, naxes_gamma_r);
+  // read gamma_2D_1 and gamma_2D_2 from pathname_gamma_3D
+  std::string pathname_gamma_3D("../Tools/tests/src/gamma_B.1_new.fits");
+  double *gamma_2D_1 = nullptr, *gamma_2D_2 = nullptr;
+  int naxis_gamma_2D = 0;
+  long *naxes_gamma_2D = nullptr;
+  std::string read_gamma_3D = io::read_image_3D(pathname_gamma_3D, gamma_2D_1, gamma_2D_2, naxis_gamma_2D, naxes_gamma_2D);
   if (read_gamma_3D != "READ_OK") {
-    if (gamma_2_r != nullptr) {
-      delete [] gamma_2_r;
+    if (gamma_2D_2 != nullptr) {
+      delete [] gamma_2D_2;
     }
-    if (gamma_1_r != nullptr) {
-      delete [] gamma_1_r;
+    if (gamma_2D_1 != nullptr) {
+      delete [] gamma_2D_1;
     }
-    if (naxes_gamma_r != nullptr) {
-      delete [] naxes_gamma_r;
+    if (naxes_gamma_2D != nullptr) {
+      delete [] naxes_gamma_2D;
     }
     BOOST_FAIL(read_gamma_3D);
   }
 
-  // write gamma_1_r into pathname_gamma_1
-  std::string pathname_gamma_1("../Tools/tests/src/gamma_B.1_new.rw.1.fits");
-  std::string name_gamma_1_rw("gamma_1_rw");
-  std::string write_gamma_1 = io::write_image(pathname_gamma_1, gamma_1_r, name_gamma_1_rw, naxis_gamma_r-1, naxes_gamma_r);
-  if (write_gamma_1 != "WRITE_OK") {
-    delete [] gamma_2_r;
-    delete [] gamma_1_r;
-    delete [] naxes_gamma_r;
-    BOOST_FAIL(write_gamma_1);
+  // write gamma_2D_1 into pathname_gamma_2D_1
+  std::string pathname_gamma_2D_1_r3Dw("../Tools/tests/src/gamma_B.2D_1.fits");
+  std::string name_gamma_2D_1_r3Dw("gamma_2D_1_r3Dw");
+  std::string write_gamma_2D_1_r3Dw = io::write_image(pathname_gamma_2D_1_r3Dw, gamma_2D_1, name_gamma_2D_1_r3Dw, naxis_gamma_2D, naxes_gamma_2D);
+  if (write_gamma_2D_1_r3Dw != "WRITE_OK") {
+    delete [] gamma_2D_2;
+    delete [] gamma_2D_1;
+    delete [] naxes_gamma_2D;
+    BOOST_FAIL(write_gamma_2D_1_r3Dw);
   }
-  // write gamma_2_r into pathname_gamma_2
-  std::string pathname_gamma_2("../Tools/tests/src/gamma_B.1_new.rw.2.fits");
-  std::string name_gamma_2_rw("gamma_2_rw");
-  std::string write_gamma_2 = io::write_image(pathname_gamma_2, gamma_2_r, name_gamma_2_rw, naxis_gamma_r-1, naxes_gamma_r);
-  if (write_gamma_2 != "WRITE_OK") {
-    delete [] gamma_2_r;
-    delete [] gamma_1_r;
-    delete [] naxes_gamma_r;
-    BOOST_FAIL(write_gamma_2);
+  // write gamma_2D_2 into pathname_gamma_2D_2
+  std::string pathname_gamma_2D_2_r3Dw("../Tools/tests/src/gamma_B.2D_2.fits");
+  std::string name_gamma_2D_2_r3Dw("gamma_2D_2");
+  std::string write_gamma_2D_2_r3Dw = io::write_image(pathname_gamma_2D_2_r3Dw, gamma_2D_2, name_gamma_2D_2_r3Dw, naxis_gamma_2D, naxes_gamma_2D);
+  if (write_gamma_2D_2_r3Dw != "WRITE_OK") {
+    delete [] gamma_2D_2;
+    delete [] gamma_2D_1;
+    delete [] naxes_gamma_2D;
+    BOOST_FAIL(write_gamma_2D_2_r3Dw);
   }
 
-  // read gamma_1_rwr from pathname_gamma_1
-  double *gamma_1_rwr = nullptr;
-  int naxis_gamma_1_rwr = 0;
-  long *naxes_gamma_1_rwr = nullptr;
-  std::string read_gamma_1 = io::read_image(pathname_gamma_1, gamma_1_rwr, naxis_gamma_1_rwr, naxes_gamma_1_rwr);
-  if (read_gamma_1 != "READ_OK") {
-    if (gamma_1_rwr != nullptr) {
-      delete [] gamma_1_rwr;
+  // read gamma_2D_1_r3Dwr from pathname_gamma_2D_1
+  double *gamma_2D_1_r3Dwr = nullptr;
+  int naxis_gamma_2D_1_r3Dwr = 0;
+  long *naxes_gamma_2D_1_r3Dwr = nullptr;
+  std::string read_gamma_2D_1 = io::read_image(pathname_gamma_2D_1_r3Dw, gamma_2D_1_r3Dwr, naxis_gamma_2D_1_r3Dwr, naxes_gamma_2D_1_r3Dwr);
+  if (read_gamma_2D_1 != "READ_OK") {
+    if (gamma_2D_1_r3Dwr != nullptr) {
+      delete [] gamma_2D_1_r3Dwr;
     }
-    if (naxes_gamma_1_rwr != nullptr) {
-      delete [] naxes_gamma_1_rwr;
+    if (naxes_gamma_2D_1_r3Dwr != nullptr) {
+      delete [] naxes_gamma_2D_1_r3Dwr;
     }
-    delete [] gamma_2_r;
-    delete [] gamma_1_r;
-    delete [] naxes_gamma_r;
-    BOOST_FAIL(read_gamma_1);
+    delete [] gamma_2D_2;
+    delete [] gamma_2D_1;
+    delete [] naxes_gamma_2D;
+    BOOST_FAIL(read_gamma_2D_1);
   }
-  // read gamma_2_rwr from pathname_gamma_2
-  double *gamma_2_rwr = nullptr;
-  int naxis_gamma_2_rwr = 0;
-  long *naxes_gamma_2_rwr = nullptr;
-  std::string read_gamma_2 = io::read_image(pathname_gamma_2, gamma_2_rwr, naxis_gamma_2_rwr, naxes_gamma_2_rwr);
-  if (read_gamma_2 != "READ_OK") {
-    if (gamma_2_rwr != nullptr) {
-      delete [] gamma_2_rwr;
+  // read gamma_2D_2_r3Dwr from pathname_gamma_2D_2
+  double *gamma_2D_2_r3Dwr = nullptr;
+  int naxis_gamma_2D_2_r3Dwr = 0;
+  long *naxes_gamma_2D_2_r3Dwr = nullptr;
+  std::string read_gamma_2D_2 = io::read_image(pathname_gamma_2D_2_r3Dw, gamma_2D_2_r3Dwr, naxis_gamma_2D_2_r3Dwr, naxes_gamma_2D_2_r3Dwr);
+  if (read_gamma_2D_2 != "READ_OK") {
+    if (gamma_2D_2_r3Dwr != nullptr) {
+      delete [] gamma_2D_2_r3Dwr;
     }
-    if (naxes_gamma_2_rwr != nullptr) {
-      delete [] naxes_gamma_2_rwr;
+    if (naxes_gamma_2D_2_r3Dwr != nullptr) {
+      delete [] naxes_gamma_2D_2_r3Dwr;
     }
-    delete [] gamma_1_rwr;
-    delete [] naxes_gamma_1_rwr;
-    delete [] gamma_2_r;
-    delete [] gamma_1_r;
-    delete [] naxes_gamma_r;
-    BOOST_FAIL(read_gamma_2);
+    delete [] gamma_2D_1_r3Dwr;
+    delete [] naxes_gamma_2D_1_r3Dwr;
+    delete [] gamma_2D_2;
+    delete [] gamma_2D_1;
+    delete [] naxes_gamma_2D;
+    BOOST_FAIL(read_gamma_2D_2);
   }
 
   // compare output vs input
   // array_1
-  BOOST_CHECK(naxis_gamma_r == naxis_gamma_1_rwr+1);
-  for (int num_axis = 0; num_axis < naxis_gamma_r-1; num_axis++) {
-    BOOST_CHECK(naxes_gamma_r[num_axis] == naxes_gamma_1_rwr[num_axis]);
+  BOOST_CHECK(naxis_gamma_2D == naxis_gamma_2D_1_r3Dwr);
+  for (int i = 0; i < naxis_gamma_2D; i++) {
+    BOOST_CHECK(naxes_gamma_2D[i] == naxes_gamma_2D_1_r3Dwr[i]);
   }
-  // array_2
-  BOOST_CHECK(naxis_gamma_r == naxis_gamma_2_rwr+1);
-  for (int num_axis = 0; num_axis < naxis_gamma_r-1; num_axis++) {
-    BOOST_CHECK(naxes_gamma_r[num_axis] == naxes_gamma_2_rwr[num_axis]);
-  }
-  for (int x = 0; x < naxes_gamma_r[0]; x++) {
-    for (int y = 0; y < naxes_gamma_r[1]; y++) {
-      BOOST_CHECK (fabs(gamma_1_rwr[0*naxes_gamma_r[1]*naxes_gamma_r[0]+x*naxes_gamma_r[1]+y]-gamma_1_r[0*naxes_gamma_r[1]*naxes_gamma_r[0]+x*naxes_gamma_r[1]+y]) <= fabs(gamma_1_r[0*naxes_gamma_r[1]*naxes_gamma_r[0]+x*naxes_gamma_r[1]+y]*0.01));
+  for (int x = 0; x < naxes_gamma_2D[0]; x++) {
+    for (int y = 0; y < naxes_gamma_2D[1]; y++) {
+      BOOST_CHECK (fabs(gamma_2D_1_r3Dwr[0*naxes_gamma_2D[1]*naxes_gamma_2D[0]+x*naxes_gamma_2D[1]+y]-gamma_2D_1[0*naxes_gamma_2D[1]*naxes_gamma_2D[0]+x*naxes_gamma_2D[1]+y]) <= fabs(gamma_2D_1[0*naxes_gamma_2D[1]*naxes_gamma_2D[0]+x*naxes_gamma_2D[1]+y]*0.01));
     }
   }
-  for (int x = 0; x < naxes_gamma_r[0]; x++) {
-    for (int y = 0; y < naxes_gamma_r[1]; y++) {
-      BOOST_CHECK (fabs(gamma_2_rwr[0*naxes_gamma_r[1]*naxes_gamma_r[0]+x*naxes_gamma_r[1]+y]-gamma_2_r[0*naxes_gamma_r[1]*naxes_gamma_r[0]+x*naxes_gamma_r[1]+y]) <= fabs(gamma_2_r[0*naxes_gamma_r[1]*naxes_gamma_r[0]+x*naxes_gamma_r[1]+y]*0.01));
+  // array_2
+  BOOST_CHECK(naxis_gamma_2D == naxis_gamma_2D_2_r3Dwr);
+  for (int i = 0; i < naxis_gamma_2D; i++) {
+    BOOST_CHECK(naxes_gamma_2D[i] == naxes_gamma_2D_2_r3Dwr[i]);
+  }
+  for (int x = 0; x < naxes_gamma_2D[0]; x++) {
+    for (int y = 0; y < naxes_gamma_2D[1]; y++) {
+      BOOST_CHECK (fabs(gamma_2D_2_r3Dwr[0*naxes_gamma_2D[1]*naxes_gamma_2D[0]+x*naxes_gamma_2D[1]+y]-gamma_2D_2[0*naxes_gamma_2D[1]*naxes_gamma_2D[0]+x*naxes_gamma_2D[1]+y]) <= fabs(gamma_2D_2[0*naxes_gamma_2D[1]*naxes_gamma_2D[0]+x*naxes_gamma_2D[1]+y]*0.01));
     }
   }
 
   // free arrays
-  delete [] gamma_2_rwr;
-  delete [] naxes_gamma_2_rwr;
-  delete [] gamma_1_rwr;
-  delete [] naxes_gamma_1_rwr;
-  delete [] gamma_2_r;
-  delete [] gamma_1_r;
-  delete [] naxes_gamma_r;
+  delete [] gamma_2D_2_r3Dwr;
+  delete [] naxes_gamma_2D_2_r3Dwr;
+  delete [] gamma_2D_1_r3Dwr;
+  delete [] naxes_gamma_2D_1_r3Dwr;
+  delete [] gamma_2D_2;
+  delete [] gamma_2D_1;
+  delete [] naxes_gamma_2D;
 }
 
 //-----------------------------------------------------------------------------

@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE( read3Dwriteread_test ) {
   }
 
   // write gamma_2D_1 into pathname_gamma_2D_1
-  std::string pathname_gamma_2D_1_r3Dw("../Tools/tests/src/gamma_B.2D_1.fits");
+  std::string pathname_gamma_2D_1_r3Dw("../Tools/tests/src/gamma_B.r3Dw.1.fits");
   std::string name_gamma_2D_1_r3Dw("gamma_2D_1_r3Dw");
   std::string write_gamma_2D_1_r3Dw = io::write_image(pathname_gamma_2D_1_r3Dw, gamma_2D_1, name_gamma_2D_1_r3Dw, naxis_gamma_2D, naxes_gamma_2D);
   if (write_gamma_2D_1_r3Dw != "WRITE_OK") {
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE( read3Dwriteread_test ) {
     BOOST_FAIL(write_gamma_2D_1_r3Dw);
   }
   // write gamma_2D_2 into pathname_gamma_2D_2
-  std::string pathname_gamma_2D_2_r3Dw("../Tools/tests/src/gamma_B.2D_2.fits");
+  std::string pathname_gamma_2D_2_r3Dw("../Tools/tests/src/gamma_B.r3Dw.2.fits");
   std::string name_gamma_2D_2_r3Dw("gamma_2D_2");
   std::string write_gamma_2D_2_r3Dw = io::write_image(pathname_gamma_2D_2_r3Dw, gamma_2D_2, name_gamma_2D_2_r3Dw, naxis_gamma_2D, naxes_gamma_2D);
   if (write_gamma_2D_2_r3Dw != "WRITE_OK") {

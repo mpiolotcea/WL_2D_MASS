@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_CASE( readwriteread_test ) {
 
   // read gamma_complex from pathname_gamma_complex
   std::string pathname_gamma_complex("../Tools/tests/src/gamma_B.1_new.fits");
-  double *gamma_complex = nullptr;
+  float *gamma_complex = nullptr;
   int naxis_complex = 0;
   long *naxes_complex = nullptr;
   std::string read_gamma_complex = io::read_image(pathname_gamma_complex, gamma_complex, naxis_complex, naxes_complex);
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE( readwriteread_test ) {
   }
 
   // read gamma_complex_rwr from pathname_gamma_complex_rw
-  double *gamma_complex_rwr = nullptr;
+  float *gamma_complex_rwr = nullptr;
   int naxis_complex_rwr = 0;
   long *naxes_complex_rwr = nullptr;
   std::string read_gamma_complex_rwr = io::read_image(pathname_gamma_complex_rw, gamma_complex_rwr, naxis_complex_rwr, naxes_complex_rwr);
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE( read3Dwriteread_test ) {
 
   // read gamma_real and gamma_imag from pathname_gamma_complex
   std::string pathname_gamma_complex("../Tools/tests/src/gamma_B.1_new.fits");
-  double *gamma_real = nullptr, *gamma_imag = nullptr;
+  float *gamma_real = nullptr, *gamma_imag = nullptr;
   int naxis_2D = 0;
   long *naxes_2D = nullptr;
   std::string read_gamma_complex = io::read_image_3D(pathname_gamma_complex, gamma_real, gamma_imag, naxis_2D, naxes_2D);
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE( read3Dwriteread_test ) {
   }
 
   // read gamma_real_r3Dwr from pathname_gamma_real
-  double *gamma_real_r3Dwr = nullptr;
+  float *gamma_real_r3Dwr = nullptr;
   int naxis_real_r3Dwr = 0;
   long *naxes_real_r3Dwr = nullptr;
   std::string read_gamma_real_r3Dwr = io::read_image(pathname_gamma_real_r3Dw, gamma_real_r3Dwr, naxis_real_r3Dwr, naxes_real_r3Dwr);
@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_CASE( read3Dwriteread_test ) {
     BOOST_FAIL(read_gamma_real_r3Dwr);
   }
   // read gamma_imag_r3Dwr from pathname_gamma_imag
-  double *gamma_imag_r3Dwr = nullptr;
+  float *gamma_imag_r3Dwr = nullptr;
   int naxis_imag_r3Dwr = 0;
   long *naxes_imag_r3Dwr = nullptr;
   std::string read_gamma_imag_r3Dwr = io::read_image(pathname_gamma_imag_r3Dw, gamma_imag_r3Dwr, naxis_imag_r3Dwr, naxes_imag_r3Dwr);
@@ -200,7 +200,7 @@ BOOST_AUTO_TEST_CASE( read3Dwrite3Dread3D_test ) {
 
   // read gamma_real and gamma_imag from pathname_gamma_complex
   std::string pathname_gamma_complex("../Tools/tests/src/gamma_B.1_new.fits");
-  double *gamma_real = nullptr, *gamma_imag = nullptr;
+  float *gamma_real = nullptr, *gamma_imag = nullptr;
   int naxis_2D = 0;
   long *naxes_2D = nullptr;
   std::string read_gamma_complex = io::read_image_3D(pathname_gamma_complex, gamma_real, gamma_imag, naxis_2D, naxes_2D);
@@ -229,7 +229,7 @@ BOOST_AUTO_TEST_CASE( read3Dwrite3Dread3D_test ) {
   }
 
   // read gamma_real_r3Dw3Dr3D from pathname_gamma_real
-  double *gamma_real_r3Dw3Dr3D = nullptr, *gamma_imag_r3Dw3Dr3D = nullptr;
+  float *gamma_real_r3Dw3Dr3D = nullptr, *gamma_imag_r3Dw3Dr3D = nullptr;
   int naxis_2D_r3Dw3Dr3D = 0;
   long *naxes_2D_r3Dw3Dr3D = nullptr;
   std::string read_gamma_r3Dw3Dr3D = io::read_image_3D(pathname_gamma_r3Dw3D, gamma_real_r3Dw3Dr3D, gamma_imag_r3Dw3Dr3D, naxis_2D_r3Dw3Dr3D, naxes_2D_r3Dw3Dr3D);

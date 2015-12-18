@@ -33,7 +33,7 @@ public:
    * @param Nx
    * @param Ny
    */
-  static void real2complex(double *real, fftw_complex *complex, int Nx, int Ny);
+  static void real2complex(float *real, fftw_complex *complex, int Nx, int Ny);
 
   /**
    *
@@ -42,27 +42,27 @@ public:
    * @param Nx
    * @param Ny
    */
-  static void complex2real(fftw_complex *complex, double *real, int Nx, int Ny);
+  static void complex2real(fftw_complex *complex, float *real, int Nx, int Ny);
 
   /**
    *
-   * @param real
-   * @param imag
-   * @param complex
-   * @param Nx
-   * @param Ny
-   */
-  static void realandimag2complex(double *real, double *imag, fftw_complex *complex, int Nx, int Ny);
-
-  /**
-   *
-   * @param complex
    * @param real
    * @param imag
+   * @param complex
    * @param Nx
    * @param Ny
    */
-  static void complex2realandimag(fftw_complex *complex, double *real, double *imag, int Nx, int Ny);
+  static void realandimag2complex(float *real, float *imag, fftw_complex *complex, int Nx, int Ny);
+
+  /**
+   *
+   * @param complex
+   * @param real
+   * @param imag
+   * @param Nx
+   * @param Ny
+   */
+  static void complex2realandimag(fftw_complex *complex, float *real, float *imag, int Nx, int Ny);
 
   /**
    *
@@ -113,7 +113,7 @@ public:
    * @param Nx
    * @param Ny
    */
-  static void gamma2kappa(double *gamma_real, double *gamma_imag, double *kappaE, double *kappaB, int Nx, int Ny);
+  static void gamma2kappa(float *gamma_real, float *gamma_imag, float *kappaE, float *kappaB, int Nx, int Ny);
 
   /**
    *
@@ -124,7 +124,7 @@ public:
    * @param Nx
    * @param Ny
    */
-  static void kappa2gamma(double *kappaE, double *kappaB, double *gamma_real, double *gamma_imag, int Nx, int Ny);
+  static void kappa2gamma(float *kappaE, float *kappaB, float *gamma_real, float *gamma_imag, int Nx, int Ny);
 
 
 private:

@@ -8,8 +8,8 @@
 
 namespace io {
 
-std::string write_image(std::string pathname, double *array, std::string name, int naxis, long *naxes) {
-  // this function writes a double array to a FITS image file
+std::string write_image(std::string pathname, float *array, std::string name, int naxis, long *naxes) {
+  // this function writes a float array to a FITS image file
   TRACE_ENTER();
   // create new file
   fitsfile *fptr;
@@ -69,8 +69,8 @@ std::string write_image(std::string pathname, double *array, std::string name, i
   return "WRITE_OK";
 }
 
-std::string write_image_3D(std::string pathname_3D, double *array_2D_real, double *array_2D_imag, std::string name_3D, int naxis_2D, long *naxes_2D) {
-  // this function writes a double array to a FITS image file
+std::string write_image_3D(std::string pathname_3D, float *array_2D_real, float *array_2D_imag, std::string name_3D, int naxis_2D, long *naxes_2D) {
+  // this function writes a float array to a FITS image file
   TRACE_ENTER();
   // create new file
   fitsfile *fptr;

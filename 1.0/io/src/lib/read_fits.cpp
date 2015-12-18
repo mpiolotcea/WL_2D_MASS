@@ -8,7 +8,7 @@
 
 namespace io {
 
-std::string read_image(std::string pathname, double *&array, int &naxis, long *&naxes) {
+std::string read_image(std::string pathname, float *&array, int &naxis, long *&naxes) {
   TRACE_ENTER();
   // open FITS image file in READONLY mode
   fitsfile *fptr;
@@ -94,7 +94,7 @@ std::string read_image(std::string pathname, double *&array, int &naxis, long *&
   for (int i = 0; i < naxis; i++) {
     nelements = nelements * naxes[i];
   }
-  array = new double[nelements];
+  array = new float[nelements];
   int anynul = 0;
   fits_read_subset(fptr, TFLOAT, fpixel, lpixel, inc, &nulval, array, &anynul, &status);
   delete [] inc;
@@ -111,7 +111,7 @@ std::string read_image(std::string pathname, double *&array, int &naxis, long *&
   return "READ_OK";
 }
 
-std::string read_image_3D(std::string pathname_3D, double *&array_2D_real, double *&array_2D_imag, int &naxis_2D, long *&naxes_2D) {
+std::string read_image_3D(std::string pathname_3D, float *&array_2D_real, float *&array_2D_imag, int &naxis_2D, long *&naxes_2D) {
   TRACE_ENTER();
   // open FITS image file in READONLY mode
   fitsfile *fptr;
@@ -211,12 +211,12 @@ std::string read_image_3D(std::string pathname_3D, double *&array_2D_real, doubl
   }
   int anynul = 0;
   // read array_2D_real
-  array_2D_real = new double[nelements_2D];
+  array_2D_real = new float[nelements_2D];
   fpixel[2] = 1;
   lpixel[2] = 1;
   fits_read_subset(fptr, TFLOAT, fpixel, lpixel, inc, &nulval, array_2D_real, &anynul, &status);
   // read array_2D_imag
-  array_2D_imag = new double[nelements_2D];
+  array_2D_imag = new float[nelements_2D];
   fpixel[2] = 2;
   lpixel[2] = 2;
   fits_read_subset(fptr, TFLOAT, fpixel, lpixel, inc, &nulval, array_2D_imag, &anynul, &status);

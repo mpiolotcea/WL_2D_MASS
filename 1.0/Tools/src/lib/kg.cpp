@@ -8,45 +8,45 @@
 
 namespace Tools {
 
-void kg::real2complex(double *real, fftw_complex *complex, int Nx, int Ny)
+void kg::real2complex(float *real, fftw_complex *complex, int Nx, int Ny)
 {
   // copy real into complex
   for (int x = 0; x < Nx; x++) {
     for (int y = 0; y < Ny; y++) {
-      complex[x*Ny+y][0] = real[x*Ny+y];
+      complex[x*Ny+y][0] = (double)real[x*Ny+y];
       complex[x*Ny+y][1] = 0;
     }
   }
 }
 
-void kg::complex2real(fftw_complex *complex, double *real, int Nx, int Ny)
+void kg::complex2real(fftw_complex *complex, float *real, int Nx, int Ny)
 {
   // copy complex into real
   for (int x = 0; x < Nx; x++) {
     for (int y = 0; y < Ny; y++) {
-      real[x*Ny+y] = complex[x*Ny+y][0];
+      real[x*Ny+y] = (float)complex[x*Ny+y][0];
     }
   }
 }
 
-void kg::realandimag2complex(double *real, double *imag, fftw_complex *complex, int Nx, int Ny)
+void kg::realandimag2complex(float *real, float *imag, fftw_complex *complex, int Nx, int Ny)
 {
   // copy real and imag into complex
   for (int x = 0; x < Nx; x++) {
     for (int y = 0; y < Ny; y++) {
-      complex[x*Ny+y][0] = real[x*Ny+y];
-      complex[x*Ny+y][1] = imag[x*Ny+y];
+      complex[x*Ny+y][0] = (double)real[x*Ny+y];
+      complex[x*Ny+y][1] = (double)imag[x*Ny+y];
     }
   }
 }
 
-void kg::complex2realandimag(fftw_complex *complex, double *real, double *imag, int Nx, int Ny)
+void kg::complex2realandimag(fftw_complex *complex, float *real, float *imag, int Nx, int Ny)
 {
   // copy complex into real and imag
   for (int x = 0; x < Nx; x++) {
     for (int y = 0; y < Ny; y++) {
-      real[x*Ny+y] = complex[x*Ny+y][0];
-      imag[x*Ny+y] = complex[x*Ny+y][1];
+      real[x*Ny+y] = (float)complex[x*Ny+y][0];
+      imag[x*Ny+y] = (float)complex[x*Ny+y][1];
     }
   }
 }
@@ -70,7 +70,7 @@ void kg::gammacircumflex2kappacircumflex(fftw_complex *gamma_real_circumflex, ff
   // compute the multiplication in Fourier space
   for (int x = 0; x < Nx; x++) {
     for (int y = 0; y < Ny; y++) {
-      double C1, C2;
+      float C1, C2;
       if (x == 0 && y == 0) {
         C1 = 0;
         C2 = 0;
@@ -92,15 +92,15 @@ void kg::kappacircumflex2gammacircumflex(fftw_complex *kappaE_circumflex, fftw_c
   // compute the multiplication in Fourier space
   for (int x = 0; x < Nx; x++) {
     for (int y = 0; y < Ny; y++) {
-      double C1 = (x*x-y*y)/(x*x+y*y);
-      double C2 = 2.0*x*y/(x*x+y*y);
+      float C1 = (x*x-y*y)/(x*x+y*y);
+      float C2 = 2.0*x*y/(x*x+y*y);
       long pos = x*Ny+y;
       if (x == 0 && y == 0) {
         gamma_real_circumflex[pos][0] = gamma_real_circumflex[pos][1] = 0;
         gamma_imag_circumflex[pos][0] = gamma_imag_circumflex[pos][1] = 0;
         continue;
       }
-      double denom = C1*C1+C2*C2;
+      float denom = C1*C1+C2*C2;
       gamma_real_circumflex[pos][0] = (C1*kappaE_circumflex[pos][0]+C2*kappaB_circumflex[pos][0])/denom;
       gamma_real_circumflex[pos][1] = (C1*kappaE_circumflex[pos][1]+C2*kappaB_circumflex[pos][1])/denom;
       gamma_imag_circumflex[pos][0] = (C2*kappaE_circumflex[pos][0]-C1*kappaB_circumflex[pos][0])/denom;
@@ -109,7 +109,7 @@ void kg::kappacircumflex2gammacircumflex(fftw_complex *kappaE_circumflex, fftw_c
   }
 }
 
-void kg::gamma2kappa(double *gamma_real, double *gamma_imag, double *kappaE, double *kappaB, int Nx, int Ny)
+void kg::gamma2kappa(float *gamma_real, float *gamma_imag, float *kappaE, float *kappaB, int Nx, int Ny)
 {
   // allocate and initialize arrays in Fourier space
   fftw_complex *gamma_real_complex = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*Nx*Ny);
@@ -149,7 +149,7 @@ void kg::gamma2kappa(double *gamma_real, double *gamma_imag, double *kappaE, dou
   fftw_free(gamma_real_complex);
 }
 
-void kg::kappa2gamma(double *kappaE, double *kappaB, double *gamma_real, double *gamma_imag, int Nx, int Ny)
+void kg::kappa2gamma(float *kappaE, float *kappaB, float *gamma_real, float *gamma_imag, int Nx, int Ny)
 {
   // allocate and initialize arrays in Fourier space
   fftw_complex *kappaE_complex = (fftw_complex*)fftw_malloc(sizeof(fftw_complex)*Nx*Ny);

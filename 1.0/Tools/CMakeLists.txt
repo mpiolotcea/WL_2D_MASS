@@ -52,9 +52,9 @@ elements_add_library(Tools src/lib/*.cpp
 #                       INCLUDE_DIRS ElementsExamples
 #                       LINK_LIBRARIES ElementsExamples TYPE Boost)
 #===============================================================================
-elements_add_unit_test(ShearInversions_test tests/src/ShearInversions_test.cpp 
-                     INCLUDE_DIRS Tools
+elements_add_unit_test(kg_test tests/src/kg_test.cpp 
                      LINK_LIBRARIES Tools
+		     INCLUDE_DIRS Tools
                      TYPE Boost)
 
 #===============================================================================

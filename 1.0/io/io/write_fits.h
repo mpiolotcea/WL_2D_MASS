@@ -26,6 +26,18 @@ namespace io {
  */
 std::string write_image(std::string pathname, double *array, std::string name, int naxis, long *naxes);
 
+/**
+ *
+ * @param pathname_3D
+ * @param array_2D_real
+ * @param array_2D_imag
+ * @param name_3D
+ * @param naxis_2D
+ * @param naxes_2D
+ * @return
+ */
+std::string write_image_3D(std::string pathname_3D, double *array_2D_real, double *array_2D_imag, std::string name_3D, int naxis_2D, long *naxes_2D);
+
 } /* namespace io */
 
 #endif
